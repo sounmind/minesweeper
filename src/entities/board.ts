@@ -1,21 +1,35 @@
-// src/entities/board.ts
 export class Board {
   width: number;
   height: number;
   grid: number[][];
+  numberOfMines: number;
 
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, numberOfMines: number) {
     this.width = width;
     this.height = height;
-    // Initialize the grid with the given dimensions
+    this.numberOfMines = numberOfMines;
     this.grid = this.initializeGrid();
+    this.placeMines();
   }
 
-  // Initializes the grid to all zeros based on board dimensions
   initializeGrid(): number[][] {
     return Array.from({ length: this.height }, () =>
       Array.from({ length: this.width }, () => 0)
     );
+  }
+
+  placeMines(): void {
+    let minesPlaced = 0;
+    while (minesPlaced < this.numberOfMines) {
+      const row = Math.floor(Math.random() * this.height);
+      const col = Math.floor(Math.random() * this.width);
+
+      // If the selected cell does not already contain a mine, place one
+      if (this.grid[row][col] !== -1) {
+        this.grid[row][col] = -1;
+        minesPlaced++;
+      }
+    }
   }
 
   // Additional methods for the Board class...
