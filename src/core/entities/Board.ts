@@ -1,6 +1,6 @@
 import { Cell } from "./Cell";
-import { GameState, IBoard, MineSweeperConfiguration } from "./interfaces/IBoard";
-import { ICell } from "./interfaces/ICell";
+import { GameState, IBoard, MineSweeperConfiguration } from "./IBoard";
+import { ICell } from "./ICell";
 
 export class Board implements IBoard {
   private _grid: ICell[][];

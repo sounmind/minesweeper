@@ -4,8 +4,8 @@ import {
   CannotFlagOpenedCellError,
   CannotOpenOpenedCellError,
   Cell,
-} from "../../src/entities/Cell";
-import { CellState } from "../../src/entities/interfaces/ICell";
+} from "../../../src/core/entities/Cell";
+import { CellState } from "../../../src/core/entities/ICell";
 
 describe("should initialize with the correct state", () => {
   test("should initialize with the correct state when it is a mine", () => {

@@ -1,4 +1,4 @@
-import { CellConfiguration, CellState, ICell } from "./interfaces/ICell";
+import { CellConfiguration, CellState, ICell } from "./ICell";
 
 export class Cell implements ICell {
   private _state: CellState;

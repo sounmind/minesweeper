@@ -1,5 +1,9 @@
-import { Board, CELL_NOT_FOUND_ERROR_MESSAGE, CellNotFoundError } from "../../src/entities/Board";
-import { GameState } from "../../src/entities/interfaces/IBoard";
+import {
+  Board,
+  CELL_NOT_FOUND_ERROR_MESSAGE,
+  CellNotFoundError,
+} from "../../../src/core/entities/Board";
+import { GameState } from "../../../src/core/entities/IBoard";
 
 test("initialize with the correct state", () => {
   // Arrange
