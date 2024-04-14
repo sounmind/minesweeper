@@ -1,8 +1,8 @@
 import { ICell } from "./ICell";
 
 export enum GameState {
-  Won,
   Lost,
+  Won,
   Ongoing,
 }
 
@@ -14,6 +14,7 @@ export interface MineSweeperConfiguration {
 
 export interface IBoard {
   getGameState(): GameState;
-  getAdjacentMinesCount(x: number, y: number): number;
+
   getCell(x: number, y: number): ICell;
+  getGrid(): ICell[][];
 }

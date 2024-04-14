@@ -3,12 +3,28 @@ import { GameState, IBoard, MineSweeperConfiguration } from "./IBoard";
 import { ICell } from "./ICell";
 
 export class Board implements IBoard {
-  private _grid: ICell[][];
-  private _gameState: GameState;
+  private readonly _grid: ICell[][];
+  private readonly _gameState: GameState;
 
   constructor(config: MineSweeperConfiguration) {
     this._gameState = GameState.Ongoing;
     this._grid = this.createGrid(config);
+  }
+
+  public getGameState(): GameState {
+    return this._gameState;
+  }
+
+  public getCell(x: number, y: number): ICell {
+    if (this.isOutOfBounds(x, y)) {
+      throw new CellNotFoundError();
+    }
+
+    return this._grid[x][y];
+  }
+
+  public getGrid(): ICell[][] {
+    return this._grid;
   }
 
   private createGrid({ rows, columns, totalMines }: MineSweeperConfiguration): ICell[][] {
@@ -33,39 +49,6 @@ export class Board implements IBoard {
     }
 
     return grid;
-  }
-
-  public getAdjacentMinesCount(x: number, y: number): number {
-    if (this.isOutOfBounds(x, y)) {
-      throw new CellNotFoundError();
-    }
-
-    const adjacentCells = [];
-
-    for (let dx = -1; dx <= 1; dx++) {
-      for (let dy = -1; dy <= 1; dy++) {
-        const nx = x + dx;
-        const ny = y + dy;
-        if (nx < 0 || nx >= this._grid.length || ny < 0 || ny >= this._grid[0].length) {
-          continue;
-        }
-        adjacentCells.push(this._grid[nx][ny]);
-      }
-    }
-
-    return adjacentCells.filter((cell) => cell.isMine()).length;
-  }
-
-  public getCell(x: number, y: number): ICell {
-    if (this.isOutOfBounds(x, y)) {
-      throw new CellNotFoundError();
-    }
-
-    return this._grid[x][y];
-  }
-
-  public getGameState(): GameState {
-    return this._gameState;
   }
 
   private isOutOfBounds(x: number, y: number): boolean {
