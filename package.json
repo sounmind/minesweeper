@@ -7,6 +7,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "jest --watch",
+    "test:ci": "jest --ci",
     "start": "node dist/index.js"
   },
   "keywords": [],
