@@ -1,4 +1,4 @@
-import { ICell } from "./ICell";
+import { ICell, type CellFactory } from "./ICell";
 
 export enum GameState {
   Lost,
@@ -6,10 +6,15 @@ export enum GameState {
   Ongoing,
 }
 
-export interface MineSweeperConfiguration {
+export interface GridConfiguration {
   rows: number;
   columns: number;
   totalMines: number;
+}
+
+export interface MineSweeperConfiguration {
+  grid: GridConfiguration;
+  createCell: CellFactory;
 }
 
 export interface IBoard {

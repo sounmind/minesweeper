@@ -1,14 +1,15 @@
-import { Cell } from "./Cell";
-import { GameState, IBoard, MineSweeperConfiguration } from "./IBoard";
-import { CellState, ICell } from "./ICell";
+import { GameState, IBoard, MineSweeperConfiguration, type GridConfiguration } from "./IBoard";
+import { CellState, ICell, type CellFactory } from "./ICell";
 
 export class Board implements IBoard {
   private readonly _grid: ICell[][];
   private _gameState: GameState;
+  private readonly _createCell: CellFactory;
 
-  constructor(config: MineSweeperConfiguration) {
+  constructor({ grid: gridConfig, createCell }: MineSweeperConfiguration) {
     this._gameState = GameState.Ongoing;
-    this._grid = this.createGrid(config);
+    this._createCell = createCell;
+    this._grid = this.createGrid(gridConfig);
   }
 
   openCell(x: number, y: number): void {
@@ -56,7 +57,7 @@ export class Board implements IBoard {
     return this._grid;
   }
 
-  private createGrid({ rows, columns, totalMines }: MineSweeperConfiguration): ICell[][] {
+  private createGrid({ rows, columns, totalMines }: GridConfiguration): ICell[][] {
     const grid: ICell[][] = Array.from({ length: rows }, () => Array.from({ length: columns }));
     const mineLocations: boolean[][] = Array.from({ length: rows }, () =>
       Array.from({ length: columns }, () => false),
@@ -73,7 +74,7 @@ export class Board implements IBoard {
 
     for (let x = 0; x < rows; x++) {
       for (let y = 0; y < columns; y++) {
-        grid[x][y] = new Cell({ isMine: mineLocations[x][y] });
+        grid[x][y] = this._createCell({ isMine: mineLocations[x][y] });
       }
     }
 

@@ -1,10 +1,16 @@
 import { Board, CellNotFoundError } from "../../../src/core/entities/Board";
-import { GameState } from "../../../src/core/entities/IBoard";
-import { CellState } from "../../../src/core/entities/ICell";
+import { Cell } from "../../../src/core/entities/Cell";
+import { GameState, type MineSweeperConfiguration } from "../../../src/core/entities/IBoard";
+import { CellState, type CellFactory } from "../../../src/core/entities/ICell";
+
+const createCell: CellFactory = ({ isMine }: { isMine: boolean }) => new Cell({ isMine });
 
 test("initialize with the correct state", () => {
   // Arrange
-  const config = { rows: 10, columns: 10, totalMines: 10 };
+  const config: MineSweeperConfiguration = {
+    grid: { rows: 10, columns: 10, totalMines: 10 },
+    createCell,
+  };
 
   // Act
   const board = new Board(config);
@@ -15,7 +21,10 @@ test("initialize with the correct state", () => {
 
 test("initialize with the correct grid", () => {
   // Arrange
-  const config = { rows: 10, columns: 10, totalMines: 10 };
+  const config: MineSweeperConfiguration = {
+    grid: { rows: 10, columns: 10, totalMines: 10 },
+    createCell,
+  };
 
   // Act
   const board = new Board(config);
@@ -34,7 +43,10 @@ test.each([
   [0, 10],
 ])("throw error when getting cell out of bounds", (x, y) => {
   // Arrange
-  const config = { rows: 10, columns: 10, totalMines: 10 };
+  const config: MineSweeperConfiguration = {
+    grid: { rows: 10, columns: 10, totalMines: 10 },
+    createCell,
+  };
   const board = new Board(config);
 
   // Act
@@ -45,7 +57,10 @@ test.each([
 describe("openCell", () => {
   test("openCell", () => {
     // Arrange
-    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 10, columns: 10, totalMines: 10 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
@@ -62,7 +77,10 @@ describe("openCell", () => {
     [0, 10],
   ])("throw error when opening cell out of bounds", (x, y) => {
     // Arrange
-    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 10, columns: 10, totalMines: 10 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
@@ -74,7 +92,10 @@ describe("openCell", () => {
 describe("toggleCellFlag", () => {
   test("toggleCellFlag", () => {
     // Arrange
-    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 10, columns: 10, totalMines: 10 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
@@ -86,7 +107,10 @@ describe("toggleCellFlag", () => {
 
   test("toggleCellFlag", () => {
     // Arrange
-    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 10, columns: 10, totalMines: 10 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
@@ -104,7 +128,10 @@ describe("toggleCellFlag", () => {
     [0, 10],
   ])("throw error when toggling cell flag out of bounds", (x, y) => {
     // Arrange
-    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 10, columns: 10, totalMines: 10 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
@@ -116,7 +143,10 @@ describe("toggleCellFlag", () => {
 describe("GameState Update", () => {
   test("game lost when mine is opened", () => {
     // Arrange
-    const config = { rows: 2, columns: 2, totalMines: 4 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 2, columns: 2, totalMines: 4 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
@@ -128,7 +158,10 @@ describe("GameState Update", () => {
 
   test("game win when all cells are opened", () => {
     // Arrange
-    const config = { rows: 2, columns: 2, totalMines: 1 };
+    const config: MineSweeperConfiguration = {
+      grid: { rows: 2, columns: 2, totalMines: 1 },
+      createCell,
+    };
     const board = new Board(config);
 
     // Act
