@@ -10,6 +10,20 @@ export class Board implements IBoard {
     this._gameState = GameState.Ongoing;
     this._grid = this.createGrid(config);
   }
+  openCell(x: number, y: number): void {
+    if (this.isOutOfBounds(x, y)) {
+      throw new CellNotFoundError();
+    }
+
+    this._grid[x][y].open();
+  }
+  toggleCellFlag(x: number, y: number): void {
+    if (this.isOutOfBounds(x, y)) {
+      throw new CellNotFoundError();
+    }
+
+    this._grid[x][y].toggleFlag();
+  }
 
   public getGameState(): GameState {
     return this._gameState;

@@ -17,4 +17,7 @@ export interface IBoard {
 
   getCell(x: number, y: number): ICell;
   getGrid(): ICell[][];
+
+  openCell(x: number, y: number): void;
+  toggleCellFlag(x: number, y: number): void;
 }
