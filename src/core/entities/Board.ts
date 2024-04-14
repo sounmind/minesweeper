@@ -1,22 +1,37 @@
 import { Cell } from "./Cell";
 import { GameState, IBoard, MineSweeperConfiguration } from "./IBoard";
-import { ICell } from "./ICell";
+import { CellState, ICell } from "./ICell";
 
 export class Board implements IBoard {
   private readonly _grid: ICell[][];
-  private readonly _gameState: GameState;
+  private _gameState: GameState;
 
   constructor(config: MineSweeperConfiguration) {
     this._gameState = GameState.Ongoing;
     this._grid = this.createGrid(config);
   }
+
   openCell(x: number, y: number): void {
     if (this.isOutOfBounds(x, y)) {
       throw new CellNotFoundError();
     }
 
     this._grid[x][y].open();
+
+    if (this._grid[x][y].isMine()) {
+      this._gameState = GameState.Lost;
+      return;
+    }
+
+    if (
+      this._grid.every((row) =>
+        row.every((cell) => cell.isMine() || cell.getState() === CellState.Opened),
+      )
+    ) {
+      this._gameState = GameState.Won;
+    }
   }
+
   toggleCellFlag(x: number, y: number): void {
     if (this.isOutOfBounds(x, y)) {
       throw new CellNotFoundError();

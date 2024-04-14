@@ -69,46 +69,80 @@ describe("openCell", () => {
     // Assert
     expect(() => board.openCell(x, y)).toThrow(CellNotFoundError);
   });
+});
 
-  describe("toggleCellFlag", () => {
-    test("toggleCellFlag", () => {
-      // Arrange
-      const config = { rows: 10, columns: 10, totalMines: 10 };
-      const board = new Board(config);
+describe("toggleCellFlag", () => {
+  test("toggleCellFlag", () => {
+    // Arrange
+    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const board = new Board(config);
 
-      // Act
-      board.toggleCellFlag(0, 0);
+    // Act
+    board.toggleCellFlag(0, 0);
 
-      // Assert
-      expect(board.getCell(0, 0).getState()).toBe(CellState.Flagged);
-    });
+    // Assert
+    expect(board.getCell(0, 0).getState()).toBe(CellState.Flagged);
+  });
 
-    test("toggleCellFlag", () => {
-      // Arrange
-      const config = { rows: 10, columns: 10, totalMines: 10 };
-      const board = new Board(config);
+  test("toggleCellFlag", () => {
+    // Arrange
+    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const board = new Board(config);
 
-      // Act
-      board.toggleCellFlag(0, 0);
-      board.toggleCellFlag(0, 0);
+    // Act
+    board.toggleCellFlag(0, 0);
+    board.toggleCellFlag(0, 0);
 
-      // Assert
-      expect(board.getCell(0, 0).getState()).toBe(CellState.Closed);
-    });
+    // Assert
+    expect(board.getCell(0, 0).getState()).toBe(CellState.Closed);
+  });
 
-    test.each([
-      [-1, 0],
-      [0, -1],
-      [10, 0],
-      [0, 10],
-    ])("throw error when toggling cell flag out of bounds", (x, y) => {
-      // Arrange
-      const config = { rows: 10, columns: 10, totalMines: 10 };
-      const board = new Board(config);
+  test.each([
+    [-1, 0],
+    [0, -1],
+    [10, 0],
+    [0, 10],
+  ])("throw error when toggling cell flag out of bounds", (x, y) => {
+    // Arrange
+    const config = { rows: 10, columns: 10, totalMines: 10 };
+    const board = new Board(config);
 
-      // Act
-      // Assert
-      expect(() => board.toggleCellFlag(x, y)).toThrow(CellNotFoundError);
-    });
+    // Act
+    // Assert
+    expect(() => board.toggleCellFlag(x, y)).toThrow(CellNotFoundError);
+  });
+});
+
+describe("GameState Update", () => {
+  test("game lost when mine is opened", () => {
+    // Arrange
+    const config = { rows: 2, columns: 2, totalMines: 4 };
+    const board = new Board(config);
+
+    // Act
+    board.openCell(0, 0);
+
+    // Assert
+    expect(board.getGameState()).toBe(GameState.Lost);
+  });
+
+  test("game win when all cells are opened", () => {
+    // Arrange
+    const config = { rows: 2, columns: 2, totalMines: 1 };
+    const board = new Board(config);
+
+    // Act
+    for (let x = 0; x < 2; x++) {
+      for (let y = 0; y < 2; y++) {
+        if (board.getCell(x, y).isMine()) {
+          continue;
+        }
+
+        board.openCell(x, y);
+      }
+    }
+
+    // Assert
+    expect(board.getGameState()).toBe(GameState.Won);
   });
 });
