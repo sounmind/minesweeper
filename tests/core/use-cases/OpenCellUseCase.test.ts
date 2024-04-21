@@ -1,11 +1,12 @@
 import type { IBoard } from "../../../src/core/entities/IBoard";
 import { type ICell, CellState } from "../../../src/core/entities/ICell";
+import type { IOpenCellUseCase } from "../../../src/core/use-cases/interfaces";
 import { OpenCellUseCase } from "../../../src/core/use-cases/OpenCellUseCase";
 
 describe("OpenCellUseCase", () => {
   let board: IBoard;
   let cells: ICell[][];
-  let openCellUseCase: OpenCellUseCase;
+  let openCellUseCase: IOpenCellUseCase;
 
   beforeEach(() => {
     // Create a grid of cells
