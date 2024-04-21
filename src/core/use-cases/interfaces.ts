@@ -7,3 +7,7 @@ export interface IStartGameUseCase {
 export interface IOpenCellUseCase {
   execute(x: number, y: number): void;
 }
+
+export interface IToggleFlagUseCase {
+  execute(x: number, y: number): void;
+}
